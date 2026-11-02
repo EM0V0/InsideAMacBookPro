@@ -5,6 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 </head>
 <body>
+
+<!-- Machine switcher -->
+<style>
+.machine-switcher { position: fixed; z-index: 100; top: max(14px, env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); display: flex; gap: 4px; padding: 4px; border: 1px solid rgba(255,255,255,.85); border-radius: 999px; background: rgba(247,250,253,.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 3px 18px rgba(23,33,44,.10); white-space: nowrap; }
+.machine-switcher a { padding: 9px 15px; border-radius: 999px; font: 600 12px/1.2 var(--font-ui, system-ui); color: #4b5968; text-decoration: none; touch-action: manipulation; }
+.machine-switcher a:hover { background: rgba(255,255,255,.8); color: #17212c; }
+.machine-switcher a[aria-current="page"] { color: #f4f6f8; background: #17212c; }
+.machine-switcher a:focus-visible { outline: 2px solid #e9952b; outline-offset: 2px; }
+@media (max-width: 380px) { .machine-switcher a { padding: 9px 11px; font-size: 11px; } }
+</style>
+<nav class="machine-switcher" aria-label="Choose a computer">
+  <a href="https://em0v0.github.io/InsideAMacintosh/">Macintosh 128K</a>
+  <a href="https://em0v0.github.io/InsideAMacBookPro/" aria-current="page">MacBook Pro</a>
+</nav>
 <title>MacBook Pro Teardown</title>
 <meta name="description" content="Take apart a 2012 15-inch MacBook Pro with Retina display in 3D.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
