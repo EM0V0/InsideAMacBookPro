@@ -1,0 +1,46 @@
+<title>MacBook Pro Teardown</title>
+<meta name="description" content="Take apart a 2012 15-inch MacBook Pro with Retina display in 3D.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root { --stage: #ced5de; --ink: #17212c; --ink-soft: #4b5968; --accent: #e9952b; --accent-ink: #9a5a0c;
+    --font-ui: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace; }
+  html, body { height: 100%; margin: 0; overflow: hidden; }
+  body { background: var(--stage); color: var(--ink); font-family: var(--font-ui); -webkit-font-smoothing: antialiased; }
+  #scene { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; outline: none; cursor: grab; }
+  #scene.pointing { cursor: pointer; }
+  #scene.grabbing { cursor: grabbing; }
+  .dock { position: fixed; left: 0; right: 0; bottom: 0; pointer-events: none; display: flex; justify-content: center;
+    padding: 0 max(16px, env(safe-area-inset-right, 0px)) max(14px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+  .main-btn { pointer-events: auto; font: 600 12px/1 var(--font-ui); letter-spacing: 0.02em; color: #f4f6f8; background: rgba(23, 33, 44, 0.8);
+    border: 0; border-radius: 999px; padding: 8px 14px; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); cursor: pointer;
+    box-shadow: 0 2px 8px rgba(23, 33, 44, 0.18); transition: background 0.15s ease, opacity 0.2s ease, transform 0.15s ease; }
+  .main-btn:hover { background: rgba(23, 33, 44, 0.92); }
+  .main-btn:active { transform: translateY(1px); }
+  .main-btn:disabled { opacity: 0.5; cursor: default; }
+  .main-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  #tag { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 5; background: rgba(247, 250, 253, 0.5); border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 8px; -webkit-backdrop-filter: blur(10px) saturate(1.2); backdrop-filter: blur(10px) saturate(1.2); box-shadow: 0 4px 12px rgba(23, 33, 44, 0.08);
+    padding: 5px 8px 6px; opacity: 0; transform: translateY(2px); transition: opacity 0.12s ease, transform 0.12s ease; }
+  #tag.show { opacity: 1; transform: none; }
+  #tag .name { font-size: 12px; font-weight: 600; white-space: nowrap; }
+  #tag .desc { font-family: var(--font-mono); font-size: 10px; color: var(--ink-soft); margin-top: 1px; white-space: nowrap; }
+  #tag .act { font-size: 10.5px; font-weight: 600; color: var(--accent-ink); margin-top: 3px; white-space: nowrap; }
+  #tag .act:empty { display: none; }
+  #tag.warn .act { color: #b23a1d; }
+  #loader { position: fixed; inset: 0; display: grid; place-items: center; pointer-events: none; transition: opacity 0.6s ease; }
+  #loader.done { opacity: 0; }
+  #loader .box { display: grid; gap: 10px; justify-items: center; font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); letter-spacing: 0.06em; text-transform: uppercase; }
+  #loader .bar { width: 180px; height: 2px; background: rgba(23, 33, 44, 0.15); border-radius: 2px; overflow: hidden; }
+  #loader .bar i { display: block; height: 100%; width: 0; background: var(--ink); transition: width 0.2s ease; }
+  #fail { display: none; max-width: 420px; text-align: center; font-size: 14px; line-height: 1.5; padding: 0 16px; text-transform: none; letter-spacing: 0; }
+  @media (prefers-reduced-motion: reduce) { #tag, #loader, .main-btn { transition: none; } }
+</style>
+<canvas id="scene" aria-label="3D model of a MacBook Pro. Drag to rotate, scroll to zoom, double-click the case to turn it over, double-click a part to select it, then drag it out." tabindex="0"></canvas>
+<div class="dock"><button class="main-btn" id="toggle" type="button" disabled>Take Apart</button></div>
+<div id="tag" role="status" aria-live="polite"><div class="name"></div><div class="desc"></div><div class="act"></div></div>
+<div id="loader"><div class="box"><span id="loadtext">Loading model</span><div class="bar"><i id="loadbar"></i></div>
+  <p id="fail">The 3D view could not start. This page needs WebGL 2; try a current version of Chrome, Edge, Firefox or Safari.</p></div></div>
+<!--IMPORTMAP-->
+<!--APP-->

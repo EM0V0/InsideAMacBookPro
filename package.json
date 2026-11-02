@@ -1,0 +1,7 @@
+{
+  "name": "inside-a-macbook-pro",
+  "private": true,
+  "type": "module",
+  "scripts": { "build": "node tools/build-page.mjs prod" },
+  "devDependencies": { "esbuild": "0.24.0", "three": "0.170.0", "@gltf-transform/core": "4.1.1", "@gltf-transform/extensions": "4.1.1", "@gltf-transform/functions": "4.1.1" }
+}
